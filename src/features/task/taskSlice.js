@@ -107,7 +107,7 @@ const taskSlice = createSlice({
   },
 });
 
-export const { editTask, selectedTask } = taskSlice.actions;
+export const { editTask, selectTask } = taskSlice.actions;
 export const selectSelectedTask = (state) => state.task.selectedTask;
 export const selectEditedTask = (state) => state.task.editedTask;
 export const selectTasks = (state) => state.task.tasks;

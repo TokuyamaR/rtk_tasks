@@ -16,7 +16,7 @@ export const fetchAsyncGet = createAsyncThunk("task/get", async () => {
 export const fetchAsyncCreate = createAsyncThunk("task/post", async (task) => {
   const res = await axios.post(apiUrl, task, {
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
       Authorization: `JWT ${token}`,
     },
   });
@@ -26,7 +26,7 @@ export const fetchAsyncCreate = createAsyncThunk("task/post", async (task) => {
 export const fetchAsyncUpdate = createAsyncThunk("task/put", async (task) => {
   const res = await axios.put(`${apiUrl}${task.id}/`, task, {
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
       Authorization: `JWT ${token}`,
     },
   });
@@ -36,7 +36,7 @@ export const fetchAsyncUpdate = createAsyncThunk("task/put", async (task) => {
 export const fetchAsyncDelete = createAsyncThunk("task/delete", async (id) => {
   await axios.delete(`${apiUrl}${id}/`, {
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
       Authorization: `JWT ${token}`,
     },
   });
@@ -66,44 +66,44 @@ const taskSlice = createSlice({
       created_at: "",
       updated_at: "",
     },
-    reducers: {
-      editTask(state, action) {
-        state.editedTask = action.payload;
-      },
-      selectTask(state, action) {
-        state.selectedTask = action.payload;
-      },
+  },
+  reducers: {
+    editTask(state, action) {
+      state.editedTask = action.payload;
     },
-    extraReducers: (builder) => {
-      builder.addCase(fetchAsyncGet.fullfilled, (state, action) => {
-        return {
-          ...state,
-          tasks: action.payload,
-        };
-      });
-      builder.addCase(fetchAsyncCreate.fullfilled, (state, action) => {
-        return {
-          ...state,
-          tasks: [action.payload, ...state.tasks],
-        };
-      });
-      builder.addCase(fetchAsyncUpdate.fullfilled, (state, action) => {
-        return {
-          ...state,
-          tasks: state.tasks.map((t) =>
-            t.id === action.payload.id ? action.payload : t
-          ),
-          selectedTask: action.payload,
-        };
-      });
-      builder.addCase(fetchAsyncDelete.fullfilled, (state, action) => {
-        return {
-          ...state,
-          tasks: state.tasks.filter((t) => t.id !== action.payload),
-          selectedTask: { id: 0, title: "", created_at: "", updated_at: "" },
-        };
-      });
+    selectTask(state, action) {
+      state.selectedTask = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchAsyncGet.fulfilled, (state, action) => {
+      return {
+        ...state,
+        tasks: action.payload,
+      };
+    });
+    builder.addCase(fetchAsyncCreate.fulfilled, (state, action) => {
+      return {
+        ...state,
+        tasks: [action.payload, ...state.tasks],
+      };
+    });
+    builder.addCase(fetchAsyncUpdate.fulfilled, (state, action) => {
+      return {
+        ...state,
+        tasks: state.tasks.map((t) =>
+          t.id === action.payload.id ? action.payload : t
+        ),
+        selectedTask: action.payload,
+      };
+    });
+    builder.addCase(fetchAsyncDelete.fulfilled, (state, action) => {
+      return {
+        ...state,
+        tasks: state.tasks.filter((t) => t.id !== action.payload),
+        selectedTask: { id: 0, title: "", created_at: "", updated_at: "" },
+      };
+    });
   },
 });
 

@@ -12,15 +12,15 @@ const TaskList = () => {
 
   useEffect(() => {
     const fetchTaskProf = async () => {
-      await dispatch(fetchAsyncGet);
-      await dispatch(fetchAsyncProf);
+      await dispatch(fetchAsyncGet());
+      await dispatch(fetchAsyncProf());
     };
     fetchTaskProf();
   }, [dispatch]);
 
   return (
     <div>
-      <ul className={styles.TaskList}>
+      <ul className={styles.taskList}>
         {tasks.map((task) => (
           <TaskItem key={task.id} task={task} />
         ))}
